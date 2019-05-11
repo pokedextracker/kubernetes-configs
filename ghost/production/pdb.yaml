@@ -1,0 +1,12 @@
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: ghost
+  namespace: production
+  labels:
+    app: blog
+spec:
+  minAvailable: 50%
+  selector:
+    matchLabels:
+      app: blog
