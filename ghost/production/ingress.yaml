@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: ghost
+  namespace: production
+  labels:
+    app: blog
+spec:
+  tls:
+  - hosts:
+    - pokedextracker.com
+  rules:
+  - host: pokedextracker.com
+    http:
+      paths:
+      - path: /blog
+        backend:
+          serviceName: ghost
+          servicePort: http

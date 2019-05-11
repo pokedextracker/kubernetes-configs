@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ghost
+  namespace: production
+  labels:
+    app: blog
+spec:
+  selector:
+    matchLabels:
+      app: blog
+  template:
+    metadata:
+      labels:
+        app: blog
+    spec:
+      containers:
+      - name: blog
+        image: ghost:2.19.4-alpine
+        ports:
+        - name: http
+          containerPort: 2368
+        env:
+        - name: url
+          value: https://pokedextracker.com/blog/
+        - name: NODE_ENV
+          value: production
+        livenessProbe:
+          httpGet:
+            path: /blog/
+            port: http
+            httpHeaders:
+            - name: Host
+              value: pokedextracker.com
+            - name: X-Forwarded-Proto
+              value: https
+          initialDelaySeconds: 120
+          timeoutSeconds: 5
+          failureThreshold: 6
+        readinessProbe:
+          httpGet:
+            path: /blog/
+            port: http
+            httpHeaders:
+            - name: Host
+              value: pokedextracker.com
+            - name: X-Forwarded-Proto
+              value: https
+          initialDelaySeconds: 30
+          timeoutSeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: 128Mi
+            cpu: 100m
+          limits:
+            memory: 256Mi
+            cpu: 150m
+        volumeMounts:
+        - mountPath: /var/lib/ghost/content
+          name: content
+      volumes:
+      - name: content
+        persistentVolumeClaim:
+          claimName: ghost-content
