@@ -8,11 +8,11 @@ on a pod-level instead of at a node-level.
 Note: replace `<account_id>` with the AWS account ID.
 
 ```sh
-$ helm upgrade \
+helm upgrade \
   --install \
   --wait \
   --namespace kube-system \
-  --set image.tag=0.10.6 \
+  --set image.tag=0.10.9 \
   --set rbac.create=true \
   --set host.iptables=true \
   --set host.interface=cni+ \
@@ -27,7 +27,7 @@ $ helm upgrade \
 ## Testing
 
 ```sh
-$ cat <<EOF | kubectl apply -f -
+cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
@@ -35,7 +35,7 @@ metadata:
   labels:
     name: aws-cli
   annotations:
-    iam.amazonaws.com/role: kubernetes-pokedextracker-cert-manager
+    iam.amazonaws.com/role: kubernetes-pokedextracker-<hash>-cert-manager
 spec:
   restartPolicy: Never
   containers:
@@ -45,5 +45,5 @@ spec:
       - "3600"
     name: aws-cli
 EOF
-$ kubectl exec aws-cli -- /home/aws/aws/env/bin/aws sts get-caller-identity
+kubectl exec aws-cli -- /home/aws/aws/env/bin/aws sts get-caller-identity
 ```
