@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: blog
-        image: ghost:2.19.4-alpine
+        image: ghost:3.15.1-alpine
         ports:
         - name: http
           containerPort: 2368
