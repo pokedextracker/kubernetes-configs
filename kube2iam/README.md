@@ -8,6 +8,8 @@ on a pod-level instead of at a node-level.
 Note: replace `<account_id>` with the AWS account ID.
 
 ```sh
+helm repo add kube2iam https://jtblin.github.io/kube2iam/
+helm repo update
 helm upgrade \
   --install \
   --wait \
@@ -21,7 +23,7 @@ helm upgrade \
   --set extraArgs.verbose=true \
   --set updateStrategy=RollingUpdate \
   kube2iam \
-  stable/kube2iam
+  kube2iam/kube2iam
 ```
 
 ## Testing

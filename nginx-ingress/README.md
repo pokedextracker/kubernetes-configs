@@ -15,6 +15,7 @@ helm upgrade \
   --install \
   --wait \
   --namespace nginx-ingress \
+  --version '<4' \
   --set controller.replicaCount=2 \
   --set controller.stats.enabled=true \
   --set controller.metrics.enabled=true \
