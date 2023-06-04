@@ -22,7 +22,9 @@ helm upgrade \
 # create issuers and certificates
 kubectl apply -f cert-manager/staging-cluster-issuer.yaml
 kubectl apply -f cert-manager/staging-wildcard.yaml
+while [ 1 ]; do kubectl get certificates staging-wildcard -n default -o json | jq '.status'; sleep 5; done
 # make sure both become Ready=True
 kubectl apply -f cert-manager/production-cluster-issuer.yaml
 kubectl apply -f cert-manager/production-wildcard.yaml
+while [ 1 ]; do kubectl get certificates wildcard -n default -o json | jq '.status'; sleep 5; done
 ```
